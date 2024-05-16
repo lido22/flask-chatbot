@@ -1,6 +1,5 @@
-from flask_ngrok3 import run_with_ngrok
 from flask import Flask, render_template, request
-
+from pyngrok import ngrok
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
@@ -15,6 +14,9 @@ model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16
 document = """
 mefic docs
 """
+port = "5000"
+
+
 
 def get_formatted_input(messages, context):
     system = "System: This is a chat between a user and an artificial intelligence assistant called lido. The assistant gives helpful, detailed answers to the user's questions based on the context. The assistant should also indicate when the answer cannot be found in the context."
@@ -48,7 +50,8 @@ def get_response(messages):
 
 # Start flask app and set to ngrok
 app = Flask(__name__)
-run_with_ngrok(app)
+# Open a ngrok tunnel to the HTTP server
+public_url = ngrok.connect(port).public_url
 
 @app.route('/')
 def initial():
