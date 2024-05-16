@@ -1,9 +1,9 @@
-from flask_ngrok import run_with_ngrok
+from flask_ngrok3 import run_with_ngrok
 from flask import Flask, render_template, request
 
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
+
 
 
 #loading the model
